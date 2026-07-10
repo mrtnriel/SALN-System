@@ -1,0 +1,118 @@
+/* frontend/css/style.css */
+
+body { 
+    background-color: #f4f6f9; 
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+}
+
+/* --- Navbar & Net Worth Display --- */
+.navbar { 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+}
+
+#net-worth-display { 
+    background-color: rgba(255,255,255,0.15); 
+    padding: 6px 16px; 
+    border-radius: 20px; 
+    font-size: 1.1rem; 
+    border: 1px solid rgba(255,255,255,0.2); 
+}
+
+/* --- Sidebar Navigation --- */
+.custom-sidebar { 
+    background-color: #ffffff; 
+    border-radius: 10px; 
+    padding: 8px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+}
+
+.custom-sidebar .list-group-item { 
+    border: none; 
+    border-radius: 6px !important; 
+    margin-bottom: 4px; 
+    padding: 12px 16px; 
+    color: #495057; 
+    font-weight: 500; 
+    transition: all 0.2s ease-in-out; 
+}
+
+.custom-sidebar .list-group-item:hover:not(.active) { 
+    background-color: #f1f3f5; 
+    transform: translateX(4px); 
+}
+
+/* Active Tab Styling (Normal) */
+.custom-sidebar .list-group-item.active { 
+    background-color: #e7f1ff; 
+    color: #0d6efd; 
+    border-left: 4px solid #0d6efd; 
+}
+
+/* Active Tab Styling (Review & Submit Button) */
+.custom-sidebar .list-group-item-warning.active { 
+    background-color: #fff3cd; 
+    color: #856404; 
+    border-left: 4px solid #ffc107; 
+}
+
+/* --- Main Form Area & Cards --- */
+.card { 
+    border-radius: 12px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important; 
+}
+
+.form-label { 
+    font-weight: 600; 
+    font-size: 0.85rem; 
+    color: #495057; 
+    margin-bottom: 0.25rem; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px; 
+}
+
+/* --- Step Transitions (Fade in effect) --- */
+.form-step { 
+    animation: fadeIn 0.35s ease-in-out; 
+}
+
+@keyframes fadeIn { 
+    from { 
+        opacity: 0; 
+        transform: translateY(10px); 
+    } 
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    } 
+}
+
+/* --- Tables & Inputs --- */
+.table th { 
+    font-size: 0.8rem; 
+    text-transform: uppercase; 
+    color: #495057; 
+    background-color: #f8f9fa !important; 
+}
+
+.table td { 
+    vertical-align: middle; 
+    padding: 0.5rem; 
+}
+
+/* Clean up inputs inside tables so they don't look bulky */
+.table .form-control-sm { 
+    border: 1px solid #dee2e6; 
+    border-radius: 4px; 
+    box-shadow: none; 
+}
+
+/* Hide the default up/down arrows on number inputs for a cleaner look */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+input[type=number] { 
+    -moz-appearance: textfield; 
+}
+

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - SALN</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+    .custom-sidebar .list-group {
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    </style>
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container-fluid px-4">
+        
+        <span class="navbar-brand mb-0 h1 d-flex align-items-center">
+            <img src="images/logo.png" width="40" height="40" class="me-2" alt="Logo">
+            <i class="bi bi-shield-lock me-2"></i>
+            Admin Dashboard
+        </span>
+        
+        <div>
+            <span class="navbar-text text-white fw-bold me-3">
+                <i class="bi bi-person-badge me-1"></i> Administrator
+            </span>
+            <button class="btn btn-sm btn-outline-light" onclick="logout()">Logout</button>
+        </div>
+        
+    </div>
+</nav>
+
+<div class="container-fluid px-4">
+    <div class="row">
+
+        <div class="col-md-2">
+            <div class="custom-sidebar">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action active" onclick="showSection(event, 'dashboard')">Dashboard</a>
+                    <a href="#" class="list-group-item list-group-item-action" onclick="showSection(event, 'pending')">Pending Requests</a>
+                    <a href="#" class="list-group-item list-group-item-action" onclick="showSection(event, 'approved')">Approved Records</a>
+                    <a href="#" class="list-group-item list-group-item-action" onclick="showSection(event, 'search')">Search Records</a>
+                    <a href="#" class="list-group-item list-group-item-action" onclick="showSection(event, 'agencies')">Agencies</a>
+                    <a href="#" class="list-group-item list-group-item-action" onclick="showSection(event, 'filters')"><i class="bi bi-funnel me-2"></i>Predefined Filters</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-10">
+
+            <div id="dashboard-section" class="content-section">
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card text-center shadow-sm border-0 border-start border-warning border-4">
+                            <div class="card-body">
+                                <h6 class="text-muted text-uppercase fw-bold mb-2">Pending</h6>
+                                <h2 id="pending-count" class="mb-0 text-warning">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center shadow-sm border-0 border-start border-success border-4">
+                            <div class="card-body">
+                                <h6 class="text-muted text-uppercase fw-bold mb-2">Approved</h6>
+                                <h2 id="approved-count" class="mb-0 text-success">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center shadow-sm border-0 border-start border-info border-4">
+                            <div class="card-body">
+                                <h6 class="text-muted text-uppercase fw-bold mb-2">Today</h6>
+                                <h2 id="today-count" class="mb-0 text-info">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center shadow-sm border-0 border-start border-primary border-4">
+                            <div class="card-body">
+                                <h6 class="text-muted text-uppercase fw-bold mb-2">Total</h6>
+                                <h2 id="total-count" class="mb-0 text-primary">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <div class="card shadow-sm border-0 h-100">
+                            <div class="card-header bg-white border-0 pt-4 pb-0">
+                                <h6 class="fw-bold mb-0">Submission Overview (Last 7 Days)</h6>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="submissionsChart" height="100"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card shadow-sm border-0 h-100">
+                            <div class="card-header bg-white border-0 pt-4 pb-0">
+                                <h6 class="fw-bold mb-0">Recent Activity</h6>
+                            </div>
+                            <div class="card-body">
+                                <div id="recent-activity-list" class="list-group list-group-flush">
+                                    <p class="text-muted small text-center mt-3">Loading...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pending-section" class="content-section" style="display: none;">
+                <h3 class="mb-4">Pending SALN Submissions</h3>
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0" id="pending-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="ps-4">Request ID</th>
+                                        <th>Declarant Name</th>
+                                        <th>Date Submitted</th>
+                                        <th class="text-end pe-4">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td colspan="4" class="text-center text-muted py-3">Loading data...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="approved-section" class="content-section" style="display: none;">
+                <h3 class="mb-4">Approved Records</h3>
+                
+                <div class="card shadow-sm border-0 mb-3">
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <div class="col-md-9">
+                                <input type="text" id="approved-search" class="form-control" placeholder="Search by declarant name..." oninput="renderApprovedRecords()">
+                            </div>
+                            <div class="col-md-3">
+                                <select id="approved-sort" class="form-select" onchange="renderApprovedRecords()">
+                                    <option value="newest">Newest First</option>
+                                    <option value="oldest">Oldest First</option>
+                                    <option value="asc">Name (A-Z)</option>
+                                    <option value="desc">Name (Z-A)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0" id="approved-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="ps-4">Record ID</th>
+                                        <th>Declarant Name</th>
+                                        <th>Date Submitted</th>
+                                        <th class="text-end pe-4">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td colspan="4" class="text-center text-muted py-3">Loading data...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="search-section" class="content-section" style="display: none;">
+                <h3 class="mb-4">Search Records</h3>
+                <div class="card shadow-sm border-0 mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <input type="text" id="search-input" class="form-control" placeholder="Search declarant, agency, year">
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary w-100" onclick="searchRecords()">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-0">
+                        <table class="table table-hover align-middle mb-0" id="search-results">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-4">ID</th>
+                                    <th>Declarant</th>
+                                    <th>Agency</th>
+                                    <th>Year</th>
+                                    <th class="text-end pe-4">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="agencies-section" class="content-section" style="display: none;">
+                <h3 class="mb-4">Agencies</h3>
+                
+                <div class="card shadow-sm border-0 mb-3">
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <div class="col-md-9">
+                                <input type="text" id="agency-search" class="form-control" placeholder="Search by agency name or address..." oninput="renderAgencies()">
+                            </div>
+                            <div class="col-md-3">
+                                <select id="agency-sort" class="form-select" onchange="renderAgencies()">
+                                    <option value="asc">Sort A-Z</option>
+                                    <option value="desc">Sort Z-A</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0" id="agencies-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="ps-4">Agency Name</th>
+                                        <th>Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td colspan="2" class="text-center text-muted py-3">Loading agencies...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="filters-section" class="content-section" style="display: none;">
+                <h3 class="mb-4">Predefined Database Filters</h3>
+                
+                <div class="row row-cols-1 row-cols-md-5 g-4 mb-4">
+                    <div class="col">
+                        <button class="btn btn-outline-primary w-100 h-100 text-start p-3 shadow-sm border-0" onclick="runFilter('declarants', 'Declarant Directory')">
+                            <i class="bi bi-person-badge d-block mb-2 fs-4"></i>
+                            <strong>1. Declarant IDs</strong><br><small class="text-muted">Directory of declarants & IDs</small>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-warning w-100 h-100 text-start p-3 shadow-sm border-0" onclick="runFilter('missing-real', 'Zero or Missing Real Property Values')">
+                            <i class="bi bi-building-exclamation d-block mb-2 fs-4"></i>
+                            <strong>2. Missing Real Prop</strong><br><small class="text-muted">Value audits</small>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-success w-100 h-100 text-start p-3 shadow-sm border-0" onclick="runFilter('high-personal', 'High-Value Personal Assets')">
+                            <i class="bi bi-gem d-block mb-2 fs-4"></i>
+                            <strong>3. High-Value Assets</strong><br><small class="text-muted">Personal assets ≥ ₱500k</small>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-danger w-100 h-100 text-start p-3 shadow-sm border-0" onclick="runFilter('major-creditors', 'Major Private Creditor Debts')">
+                            <i class="bi bi-bank d-block mb-2 fs-4"></i>
+                            <strong>4. Major Creditors</strong><br><small class="text-muted">Private debts > ₱1M</small>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-info w-100 h-100 text-start p-3 shadow-sm border-0" onclick="runFilter('recent-ids', 'Recent Common Government IDs')">
+                            <i class="bi bi-card-heading d-block mb-2 fs-4"></i>
+                            <strong>5. Recent Gov IDs</strong><br><small class="text-muted">ID usage from 2021-Present</small>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-secondary w-100 h-100 text-start p-3 shadow-sm border-0" onclick="runFilter('dependents', 'Dependents Nearing Legal Age')">
+                            <i class="bi bi-people d-block mb-2 fs-4"></i>
+                            <strong>6. Nearing Legal Age</strong><br><small class="text-muted">Households with 17yo</small>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-dark w-100 h-100 text-start p-3 shadow-sm border-0" onclick="runFilter('high-real', 'High-Value Real Estate Filings')">
+                            <i class="bi bi-house-door d-block mb-2 fs-4"></i>
+                            <strong>7. High-Value Real Estate</strong><br><small class="text-muted">Real properties ≥ ₱5M</small>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-primary w-100 h-100 text-start p-3 shadow-sm border-0" onclick="runFilter('agency-demographics', 'Agency Dependent Demographics')">
+                            <i class="bi bi-building d-block mb-2 fs-4"></i>
+                            <strong>8. Agency Demographics</strong><br><small class="text-muted">Dependent counts by agency</small>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-info w-100 h-100 text-start p-3 shadow-sm border-0" onclick="runFilter('high-spending-years', 'High-Spending Years (Personal Assets)')">
+                            <i class="bi bi-calendar-event d-block mb-2 fs-4"></i>
+                            <strong>9. High-Spending Years</strong><br><small class="text-muted">Years with > ₱1M spent</small>
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-outline-success w-100 h-100 text-start p-3 shadow-sm border-0" onclick="runFilter('appreciating-real-estate', 'Highly Appreciating Non-Residential Real Estate')">
+                            <i class="bi bi-graph-up-arrow d-block mb-2 fs-4"></i>
+                            <strong>10. Appreciating Assets</strong><br><small class="text-muted">High ROI non-residential</small>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0" id="filter-results-card" style="display:none;">
+                    <div class="card-header bg-white border-0 pt-4 d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold mb-0 text-primary" id="filter-title">Results</h5>
+                        <button class="btn btn-sm btn-close" onclick="document.getElementById('filter-results-card').style.display='none'"></button>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0" id="filter-table">
+                                <thead class="table-light" id="filter-thead">
+                                    </thead>
+                                <tbody id="filter-tbody">
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewRecordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title"><i class="bi bi-file-earmark-person me-2"></i>SALN Record Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-record-content">
+                </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function showSection(event, sectionId) {
+        event.preventDefault();
+        document.querySelectorAll('.content-section').forEach(sec => sec.style.display = 'none');
+        document.querySelectorAll('.list-group-item').forEach(link => link.classList.remove('active'));
+        
+        const target = document.getElementById(sectionId + '-section');
+        if (target) target.style.display = 'block';
+        event.currentTarget.classList.add('active');
+
+        // Automatically load agency data when the section is shown
+        if (sectionId === 'agencies') {
+            loadAgencies();
+        }
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
