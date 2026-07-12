@@ -89,6 +89,8 @@ This will automatically create:
 - `saln_db`
 - All required database tables
 
+- or you can upload the tables manually (you can find the normalized tables in the SQL folder)
+
 ### Configure the Database Connection
 
 Open the following file:
