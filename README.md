@@ -14,3 +14,29 @@ We developed a comprehensive, full-stack web application designed to digitize th
 - Dual-Role Authentication: Secure login routing that differentiates between standard users submitting forms and administrators managing the system.
 - Staging Workflow: To protect the main database, user submissions are temporarily held in a Pending_Submissions staging table as raw JSON payloads.
 - Admin Dashboard: A dedicated interface for administrators to view real-time statistics, search through records, and review pending submissions. Admins can securely approve records—which unpacks the JSON and distributes it relationally across the main database tables—or delete them.
+
+
+## Project Structure
+
+```text
+saln-system/
+├── backend/
+│   ├── app.py
+│   ├── db_config.py
+│   └── requirements.txt
+│
+├── frontend/
+│   ├── index.html
+│   ├── admin.html
+│   ├── login.html
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       ├── app.js
+│       ├── admin.js
+│       └── login.js
+│
+└── sql/
+    ├── clear_tables.sql
+    └── schema.sql
+```
