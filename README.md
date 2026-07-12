@@ -63,9 +63,6 @@ Before running the project, make sure you have the following installed:
 - Python **3.8** or later
 - MySQL Server
   - MySQL Workbench
-  - XAMPP
-  - WAMP
-  - or any compatible MySQL installation
 - Visual Studio Code (Recommended)
 - Live Server extension for Visual Studio Code (Recommended)
 
@@ -89,7 +86,7 @@ This will automatically create:
 - `saln_db`
 - All required database tables
 
-- or you can upload the tables manually (you can find the normalized tables in the SQL folder)
+or you can upload the tables manually (you can find the normalized tables in the SQL folder)
 
 ### Configure the Database Connection
 
